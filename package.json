@@ -1,0 +1,11 @@
+{
+  "name": "magicon",
+  "version": "1.0.0",
+  "scripts": {
+    "generate": "bun generate.ts",
+    "preview": "open preview.html"
+  },
+  "dependencies": {
+    "puppeteer": "^24.37.5"
+  }
+}

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1024px;
+    height: 1024px;
+    overflow: hidden;
+    background: #000000;
+    font-family: -apple-system, system-ui, "SF Pro Display", sans-serif;
+    position: relative;
+  }
+
+  .b {
+    position: absolute;
+    border-radius: 38px;
+    white-space: nowrap;
+    font-weight: 500;
+    letter-spacing: -2px;
+    line-height: 1;
+    color: rgba(255,255,255,0.84);
+    background: #2C2C2E;
+    font-size: 92px;
+    padding: 36px 52px;
+    z-index: 2;
+  }
+
+  .hero {
+    background: #0A84FF;
+    padding: 44px 64px;
+    font-size: 108px;
+    font-weight: 650;
+    letter-spacing: -3px;
+    border-radius: 44px;
+    color: #fff;
+    box-shadow: 0 0 80px rgba(10,132,255,0.6), 0 0 200px rgba(10,132,255,0.25);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+  }
+</style>
+</head>
+<body>
+
+<!--
+  13 surrounding bubbles spread across all 8 zones.
+  Hero at center (512,512) ~380×196px.
+  Each zone gets 1-2 bubbles, no overlap, some bleed off edges.
+-->
+<div style="position:absolute; inset:0; transform:scale(1.3); transform-origin:center center;">
+
+<!-- ── TOP STRIP ──────────────────────────────────── -->
+<!-- top-left corner, bleeds -->
+<div class="b" style="top:-15px; left:-90px; transform:rotate(-22deg)">club?</div>
+<!-- top-center -->
+<div class="b" style="top:36px;  left:290px; transform:rotate(-5deg)">raves?</div>
+<!-- top-right corner, bleeds -->
+<div class="b" style="top:-20px; left:700px; transform:rotate(20deg)">free?</div>
+
+<!-- ── UPPER BAND ─────────────────────────────────── -->
+<!-- upper-left, bleeds left -->
+<div class="b" style="top:215px; left:-82px; transform:rotate(-15deg)">party?</div>
+<!-- above hero, centered -->
+<div class="b" style="top:234px; left:272px; transform:rotate(1deg)">afters?</div>
+<!-- upper-right, bleeds right -->
+<div class="b" style="top:190px; left:762px; transform:rotate(16deg)">dance?</div>
+
+<!-- ── MIDDLE BAND (flanking hero) ───────────────── -->
+<!-- left of hero, bleeds left -->
+<div class="b" style="top:428px; left:-130px; transform:rotate(8deg)">after?</div>
+<!-- right of hero, upper -->
+<div class="b" style="top:368px; left:722px; transform:rotate(-9deg)">out?</div>
+<!-- right of hero, lower, bleeds right -->
+<div class="b" style="top:538px; left:848px; transform:rotate(-13deg)">events?</div>
+
+<!-- ── LOWER BAND ──────────────────────────────────── -->
+<!-- lower-left, bleeds left -->
+<div class="b" style="top:638px; left:-98px; transform:rotate(13deg)">plans?</div>
+<!-- below hero, centered -->
+<div class="b" style="top:628px; left:272px; transform:rotate(-2deg)">concert?</div>
+
+<!-- ── BOTTOM STRIP ───────────────────────────────── -->
+<!-- bottom-left -->
+<div class="b" style="top:832px; left:52px;  transform:rotate(-9deg)">shows?</div>
+<!-- bottom-right, bleeds right -->
+<div class="b" style="top:844px; left:526px; transform:rotate(15deg)">brunch?</div>
+
+<!-- ── HERO ──────────────────────────────────────────── -->
+<div class="hero">plans?</div>
+
+</div> <!-- /zoom -->
+</body>
+</html>

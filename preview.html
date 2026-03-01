@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>wyd icon preview</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #1C1C1E;
+    font-family: -apple-system, system-ui, sans-serif;
+    color: #ffffff;
+    padding: 48px;
+    min-height: 100vh;
+  }
+
+  h1 {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 40px;
+  }
+
+  .section {
+    margin-bottom: 52px;
+  }
+
+  .section-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .vibe-tag {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 3px 10px;
+    border-radius: 100px;
+  }
+
+  .sizes {
+    display: flex;
+    gap: 20px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+  }
+
+  .icon-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+  }
+
+  .icon-frame {
+    border-radius: 22.5%;
+    overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08), 0 8px 32px rgba(0,0,0,0.4);
+  }
+
+  iframe {
+    display: block;
+    border: none;
+    transform-origin: top left;
+    pointer-events: none;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    margin: 8px 0 48px;
+  }
+</style>
+</head>
+<body>
+  <h1>wyd · app icon concepts</h1>
+
+  <div id="icons"></div>
+
+<script>
+  const vibes = [
+    { file: 'vibe-1-bubble.html',   label: 'The Message',    tag: 'vibe 1' },
+    { file: 'vibe-2-type.html',     label: 'Big Type',       tag: 'vibe 2' },
+    { file: 'vibe-3-messages.html', label: 'Group Chat',     tag: 'vibe 3' },
+    { file: 'vibe-4-badge.html',    label: 'The Notif',      tag: 'vibe 4' },
+    { file: 'vibe-5-brat.html',     label: 'brat',           tag: 'vibe 5' },
+  ];
+
+  const sizes = [
+    { px: 256, label: '256' },
+    { px: 180, label: '180' },
+    { px: 120, label: '120' },
+    { px: 87,  label: '87' },
+    { px: 60,  label: '60' },
+  ];
+
+  const root = document.getElementById('icons');
+
+  vibes.forEach(({ file, label, tag }, vi) => {
+    if (vi > 0) {
+      const hr = document.createElement('hr');
+      hr.className = 'divider';
+      root.appendChild(hr);
+    }
+
+    const section = document.createElement('div');
+    section.className = 'section';
+
+    const title = document.createElement('div');
+    title.className = 'section-title';
+    title.innerHTML = `${label} <span class="vibe-tag">${tag}</span>`;
+    section.appendChild(title);
+
+    const row = document.createElement('div');
+    row.className = 'sizes';
+
+    sizes.forEach(({ px, label: sizeLabel }) => {
+      const col = document.createElement('div');
+      col.className = 'icon-col';
+
+      const frame = document.createElement('div');
+      frame.className = 'icon-frame';
+      frame.style.width = px + 'px';
+      frame.style.height = px + 'px';
+
+      const iframe = document.createElement('iframe');
+      iframe.src = file;
+      iframe.style.width = '1024px';
+      iframe.style.height = '1024px';
+      const scale = px / 1024;
+      iframe.style.transform = `scale(${scale})`;
+
+      const lbl = document.createElement('div');
+      lbl.className = 'label';
+      lbl.textContent = sizeLabel;
+
+      frame.appendChild(iframe);
+      col.appendChild(frame);
+      col.appendChild(lbl);
+      row.appendChild(col);
+    });
+
+    section.appendChild(row);
+    root.appendChild(section);
+  });
+</script>
+</body>
+</html>
