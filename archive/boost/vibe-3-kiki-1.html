@@ -1,0 +1,61 @@
+<html style="width:1024px;height:1024px;margin:0;padding:0;overflow:hidden">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  width: 1024px;
+  height: 1024px;
+  background: #0C0C11;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+.bg-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 46% 40% at 50% 32%,
+    rgba(64, 148, 255, 0.18) 0%,
+    rgba(64, 148, 255, 0.05) 48%,
+    transparent 72%
+  );
+}
+.icon {
+  position: relative;
+  z-index: 2;
+  filter:
+    drop-shadow(0 0 12px rgba(80, 165, 255, 0.90))
+    drop-shadow(0 0 42px rgba(64, 148, 255, 0.55))
+    drop-shadow(0 0 95px rgba(40, 120, 240, 0.22));
+}
+</style>
+<body>
+  <div class="bg-glow"></div>
+  <div class="icon">
+    <!-- v1: miter joins, original geometry, viewBox padded at top to avoid clipping -->
+    <svg width="460" height="570" viewBox="0 -20 100 124" overflow="visible" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="kg" x1="0%" y1="100%" x2="0%" y2="0%">
+          <stop offset="0%"   stop-color="#3B93FF"/>
+          <stop offset="100%" stop-color="#A8D8FF"/>
+        </linearGradient>
+      </defs>
+
+      <path d="M4,94 L50,68 L96,94"
+        fill="none" stroke="url(#kg)" stroke-width="8"
+        stroke-linejoin="miter" stroke-miterlimit="22" stroke-linecap="butt"
+        opacity="0.22"/>
+
+      <path d="M16,68 L50,38 L84,68"
+        fill="none" stroke="url(#kg)" stroke-width="9"
+        stroke-linejoin="miter" stroke-miterlimit="22" stroke-linecap="butt"
+        opacity="0.58"/>
+
+      <path d="M30,40 L50,6 L70,40"
+        fill="none" stroke="url(#kg)" stroke-width="10.5"
+        stroke-linejoin="miter" stroke-miterlimit="22" stroke-linecap="butt"
+        opacity="1.0"/>
+    </svg>
+  </div>
+</body>
+</html>

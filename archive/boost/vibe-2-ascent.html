@@ -1,0 +1,66 @@
+<html style="width:1024px;height:1024px;margin:0;padding:0;overflow:hidden">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  width: 1024px;
+  height: 1024px;
+  background: #090910;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+.bg-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 48% 44% at 52% 38%,
+    rgba(255, 175, 56, 0.15) 0%,
+    rgba(255, 155, 40, 0.05) 50%,
+    transparent 72%
+  );
+}
+.icon {
+  position: relative;
+  z-index: 2;
+  filter:
+    drop-shadow(0 0 10px rgba(255, 190, 65, 0.85))
+    drop-shadow(0 0 38px rgba(255, 165, 45, 0.50))
+    drop-shadow(0 0 95px rgba(255, 140, 30, 0.18));
+}
+</style>
+<body>
+  <div class="bg-glow"></div>
+  <div class="icon">
+    <!--
+      One continuous path: straight slope (the climb) + exponential arc (the launch).
+      The inflection at (50, 30) is the summit — where momentum shifts from
+      linear ascent to exponential trajectory. One line, whole story.
+    -->
+    <svg width="460" height="460" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Diagonal gradient: dim blue-white on approach, full amber at peak+beyond -->
+        <linearGradient id="pg" x1="8%" y1="92%" x2="95%" y2="8%">
+          <stop offset="0%"   stop-color="#8AC4FF" stop-opacity="0.12"/>
+          <stop offset="42%"  stop-color="#FFAD38" stop-opacity="0.62"/>
+          <stop offset="58%"  stop-color="#FFAD38"/>
+          <stop offset="100%" stop-color="#FFE060" stop-opacity="0.65"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Slope up to peak (straight), then exponential arc beyond -->
+      <path
+        d="M8,90 L50,30 C60,15 77,7 96,9"
+        fill="none"
+        stroke="url(#pg)"
+        stroke-width="2.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+
+      <!-- Summit: the inflection point -->
+      <circle cx="50" cy="30" r="2.2" fill="#FFE060" opacity="0.95"/>
+    </svg>
+  </div>
+</body>
+</html>

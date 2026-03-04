@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1024px;
+    height: 1024px;
+    overflow: hidden;
+    background: #ECEAE2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, "SF Pro Display", system-ui, sans-serif;
+  }
+
+  .cal {
+    width: 756px;
+    height: 756px;
+    background: #fff;
+    border-radius: 56px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.14), 0 4px 12px rgba(0,0,0,0.06);
+  }
+
+  .cal-head {
+    background: #D03A3A;
+    padding: 54px 0 50px;
+    text-align: center;
+  }
+
+  .cal-title {
+    font-size: 96px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -4px;
+    line-height: 1;
+  }
+
+  .cal-body {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .cal-date {
+    font-size: 360px;
+    font-weight: 900;
+    color: #D03A3A;
+    letter-spacing: -22px;
+    line-height: 0.88;
+  }
+
+  .cal-day {
+    font-size: 48px;
+    font-weight: 400;
+    color: #C0BFBC;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+  <div class="cal">
+    <div class="cal-head">
+      <div class="cal-title">Plans</div>
+    </div>
+    <div class="cal-body">
+      <div class="cal-date">29</div>
+      <div class="cal-day">Friday</div>
+    </div>
+  </div>
+</body>
+</html>

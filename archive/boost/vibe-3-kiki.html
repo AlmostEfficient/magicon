@@ -1,0 +1,86 @@
+<html style="width:1024px;height:1024px;margin:0;padding:0;overflow:hidden">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  width: 1024px;
+  height: 1024px;
+  background: #0C0C11;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+.bg-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 46% 40% at 50% 32%,
+    rgba(64, 148, 255, 0.18) 0%,
+    rgba(64, 148, 255, 0.05) 48%,
+    transparent 72%
+  );
+}
+.icon {
+  position: relative;
+  z-index: 2;
+  filter:
+    drop-shadow(0 0 12px rgba(80, 165, 255, 0.90))
+    drop-shadow(0 0 42px rgba(64, 148, 255, 0.55))
+    drop-shadow(0 0 95px rgba(40, 120, 240, 0.22));
+}
+</style>
+<body>
+  <div class="bg-glow"></div>
+  <div class="icon">
+    <!--
+      Three chevrons with progressively wider angles (bottom flatter than top).
+      Outer tips trace a perfectly straight mountain slope on both sides:
+        Left:  (33,44) → (19,66) → (5,88)   — each step Δ(-14,+22), perfectly linear
+        Right: (82,44) → (96,66) → (110,88) — mirror
+      Top chevron angle ≈ 34° from vertical — sharper than original (≈51°).
+      Round joins to ensure apex renders correctly at all sizes.
+    -->
+    <svg width="460" height="420" viewBox="0 0 115 105" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="kg" x1="0%" y1="100%" x2="0%" y2="0%">
+          <stop offset="0%"   stop-color="#3B93FF"/>
+          <stop offset="100%" stop-color="#A8D8FF"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Bottom chevron: flattest angle, dimmest -->
+      <path
+        d="M5,88 L57.5,50 L110,88"
+        fill="none"
+        stroke="url(#kg)"
+        stroke-width="9"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        opacity="0.28"
+      />
+
+      <!-- Middle chevron -->
+      <path
+        d="M19,66 L57.5,28 L96,66"
+        fill="none"
+        stroke="url(#kg)"
+        stroke-width="10"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        opacity="0.60"
+      />
+
+      <!-- Top chevron: sharpest angle, brightest — the summit -->
+      <path
+        d="M33,44 L57.5,8 L82,44"
+        fill="none"
+        stroke="url(#kg)"
+        stroke-width="11"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        opacity="1.0"
+      />
+    </svg>
+  </div>
+</body>
+</html>

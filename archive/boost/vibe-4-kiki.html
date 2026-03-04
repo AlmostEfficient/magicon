@@ -1,0 +1,79 @@
+<html style="width:1024px;height:1024px;margin:0;padding:0;overflow:hidden">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  width: 1024px;
+  height: 1024px;
+  background: #0C0C11;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+.bg-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 52% 48% at 50% 46%,
+    rgba(64, 148, 255, 0.16) 0%,
+    rgba(64, 148, 255, 0.05) 45%,
+    transparent 72%
+  );
+}
+.chevrons-wrap {
+  position: relative;
+  z-index: 2;
+  filter:
+    drop-shadow(0 0 14px rgba(80, 165, 255, 0.85))
+    drop-shadow(0 0 38px rgba(64, 148, 255, 0.50))
+    drop-shadow(0 0 80px rgba(40, 120, 240, 0.22));
+}
+</style>
+<body>
+  <div class="bg-glow"></div>
+  <div class="chevrons-wrap">
+    <svg width="552" height="581" viewBox="0 -8 115 121" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="glow-top" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <!-- Bottom chevron -->
+      <path
+        d="M16,96 L57.5,60 L99,96"
+        fill="none"
+        stroke="#3A7AE0"
+        stroke-width="8"
+        stroke-linecap="square"
+        stroke-linejoin="miter"
+        stroke-miterlimit="10"
+        opacity="0.55"
+      />
+      <!-- Middle chevron -->
+      <path
+        d="M16,65 L57.5,29 L99,65"
+        fill="none"
+        stroke="#3E8FFF"
+        stroke-width="10"
+        stroke-linecap="square"
+        stroke-linejoin="miter"
+        stroke-miterlimit="10"
+        opacity="0.90"
+      />
+      <!-- Top chevron — blazing white-blue -->
+      <path
+        d="M16,34 L57.5,0 L99,34"
+        fill="none"
+        stroke="#C8E8FF"
+        stroke-width="13"
+        stroke-linecap="square"
+        stroke-linejoin="miter"
+        stroke-miterlimit="10"
+        opacity="1.0"
+        filter="url(#glow-top)"
+      />
+    </svg>
+  </div>
+</body>
+</html>

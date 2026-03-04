@@ -1,0 +1,79 @@
+<html style="width:1024px;height:1024px;margin:0;padding:0;overflow:hidden">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  width: 1024px;
+  height: 1024px;
+  background: #0C0C11;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+.bg-glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 48% 28% at 50% 38%, rgba(64,148,255,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 48% 18% at 50% 58%, rgba(240,160,48,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 55% 22% at 50% 76%, rgba(154,110,232,0.10) 0%, transparent 70%);
+}
+.stack {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.pill {
+  border-radius: 56px;
+  height: 112px;
+  position: relative;
+  overflow: hidden;
+}
+.pill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom,
+    rgba(255,255,255,0.11) 0%,
+    rgba(255,255,255,0.03) 45%,
+    transparent 65%
+  );
+}
+/* Performance — electric blue */
+.p1 {
+  width: 306px;
+  background: linear-gradient(135deg, #82C8FF 0%, #3E92FF 55%, #1C68D8 100%);
+  box-shadow:
+    0 5px 28px rgba(64, 148, 255, 0.58),
+    0 0 64px rgba(64, 148, 255, 0.22);
+}
+/* Reset — amber */
+.p2 {
+  width: 436px;
+  background: linear-gradient(135deg, #FFCC72 0%, #F0A030 55%, #C07820 100%);
+  box-shadow:
+    0 5px 28px rgba(240, 160, 48, 0.48),
+    0 0 56px rgba(240, 160, 48, 0.16);
+}
+/* Recovery — soft purple */
+.p3 {
+  width: 556px;
+  background: linear-gradient(135deg, #CEAEF8 0%, #9A6EE8 55%, #7048C8 100%);
+  box-shadow:
+    0 5px 28px rgba(154, 110, 232, 0.48),
+    0 0 56px rgba(154, 110, 232, 0.16);
+}
+</style>
+<body>
+  <div class="bg-glow"></div>
+  <div class="stack">
+    <div class="pill p1"></div>
+    <div class="pill p2"></div>
+    <div class="pill p3"></div>
+  </div>
+</body>
+</html>

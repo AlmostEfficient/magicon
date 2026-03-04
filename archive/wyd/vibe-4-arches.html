@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1024px;
+    height: 1024px;
+    overflow: hidden;
+    background: linear-gradient(180deg, #07091C 0%, #0F0826 45%, #180A30 100%);
+    position: relative;
+  }
+
+  /* Stacked semicircle arches rising from the bottom.
+     Each div is a rectangle with a fully-rounded top edge
+     so it appears as a dome / arch. */
+
+  .arc {
+    position: absolute;
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Widest / lowest — deep burnt coral */
+  .a5 {
+    width: 980px;
+    height: 490px;
+    background: #9E2E28;
+    bottom: -220px;
+  }
+
+  /* Warm brick red */
+  .a4 {
+    width: 820px;
+    height: 410px;
+    background: #C04835;
+    bottom: 60px;
+  }
+
+  /* Warm amber */
+  .a3 {
+    width: 660px;
+    height: 330px;
+    background: #D97040;
+    bottom: 240px;
+  }
+
+  /* Golden orange */
+  .a2 {
+    width: 500px;
+    height: 250px;
+    background: #E89A5C;
+    bottom: 400px;
+  }
+
+  /* Pale peach — topmost, smallest */
+  .a1 {
+    width: 340px;
+    height: 170px;
+    background: #F5C896;
+    bottom: 530px;
+  }
+</style>
+</head>
+<body>
+  <div class="arc a5"></div>
+  <div class="arc a4"></div>
+  <div class="arc a3"></div>
+  <div class="arc a2"></div>
+  <div class="arc a1"></div>
+</body>
+</html>

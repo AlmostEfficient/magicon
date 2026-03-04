@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1024px;
+    height: 1024px;
+    overflow: hidden;
+    background: #080C14;
+    font-family: -apple-system, "SF Pro Display", system-ui, sans-serif;
+  }
+</style>
+</head>
+<body>
+  <svg width="1024" height="1024" viewBox="0 0 1024 1024">
+    <defs>
+      <filter id="glow-lg">
+        <feGaussianBlur stdDeviation="6" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="glow-sm">
+        <feGaussianBlur stdDeviation="3" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+
+    <!-- Connection lines -->
+    <g stroke="rgba(80,140,255,0.22)" stroke-width="1.8" fill="none">
+      <!-- A-B --> <line x1="512" y1="512" x2="312" y2="400"/>
+      <!-- A-C --> <line x1="512" y1="512" x2="680" y2="348"/>
+      <!-- A-I --> <line x1="512" y1="512" x2="440" y2="242"/>
+      <!-- B-H --> <line x1="312" y1="400" x2="218" y2="438"/>
+      <!-- B-G --> <line x1="312" y1="400" x2="252" y2="618"/>
+      <!-- C-D --> <line x1="680" y1="348" x2="758" y2="578"/>
+      <!-- C-J --> <line x1="680" y1="348" x2="638" y2="202"/>
+      <!-- D-E --> <line x1="758" y1="578" x2="678" y2="718"/>
+      <!-- E-F --> <line x1="678" y1="718" x2="398" y2="758"/>
+      <!-- F-G --> <line x1="398" y1="758" x2="252" y2="618"/>
+      <!-- H-G --> <line x1="218" y1="438" x2="252" y2="618"/>
+      <!-- I-J --> <line x1="440" y1="242" x2="638" y2="202"/>
+    </g>
+
+    <!-- Secondary connection hints -->
+    <g stroke="rgba(80,140,255,0.10)" stroke-width="1.2" fill="none">
+      <line x1="312" y1="400" x2="440" y2="242"/>
+      <line x1="512" y1="512" x2="252" y2="618"/>
+      <line x1="680" y1="348" x2="758" y2="578"/>
+    </g>
+
+    <!-- Leaf nodes (small) -->
+    <g filter="url(#glow-sm)">
+      <circle cx="638" cy="202" r="8"  fill="#3868B8"/>  <!-- J -->
+      <circle cx="678" cy="718" r="8"  fill="#3868B8"/>  <!-- E -->
+      <circle cx="398" cy="758" r="8"  fill="#3868B8"/>  <!-- F -->
+      <circle cx="218" cy="438" r="8"  fill="#3868B8"/>  <!-- H -->
+    </g>
+
+    <!-- Mid nodes -->
+    <g filter="url(#glow-sm)">
+      <circle cx="440" cy="242" r="11" fill="#5288CC"/>  <!-- I -->
+      <circle cx="252" cy="618" r="11" fill="#5288CC"/>  <!-- G -->
+      <circle cx="758" cy="578" r="11" fill="#5288CC"/>  <!-- D -->
+    </g>
+
+    <!-- Primary nodes -->
+    <g filter="url(#glow-lg)">
+      <circle cx="312" cy="400" r="14" fill="#78AAEE"/>  <!-- B -->
+      <circle cx="680" cy="348" r="14" fill="#78AAEE"/>  <!-- C -->
+    </g>
+
+    <!-- Center hub -->
+    <g filter="url(#glow-lg)">
+      <circle cx="512" cy="512" r="20" fill="#A0C8FF"/>  <!-- A -->
+    </g>
+
+    <!-- "plans" label at center, small and subtle -->
+    <text
+      x="512" y="566"
+      text-anchor="middle"
+      font-family="-apple-system, system-ui, sans-serif"
+      font-size="40"
+      font-weight="500"
+      fill="rgba(255,255,255,0.38)"
+      letter-spacing="-0.5"
+    >plans</text>
+  </svg>
+</body>
+</html>

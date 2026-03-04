@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1024px;
+    height: 1024px;
+    overflow: hidden;
+    background: #090909;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, system-ui, "SF Pro Display", sans-serif;
+    position: relative;
+  }
+
+  .canvas {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .words {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-5deg) translateY(-20px);
+    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .line {
+    font-size: 290px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -14px;
+    line-height: 0.86;
+  }
+
+  .line.dim {
+    color: rgba(255,255,255,0.10);
+  }
+
+  .label {
+    position: absolute;
+    bottom: 72px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 28px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.28);
+    letter-spacing: 10px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+  <div class="canvas">
+    <div class="words">
+      <div class="line dim">plans</div>
+      <div class="line">plans</div>
+      <div class="line dim">plans</div>
+    </div>
+    <div class="label">tonight</div>
+  </div>
+</body>
+</html>

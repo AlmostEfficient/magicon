@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1024px;
+    height: 1024px;
+    overflow: hidden;
+    background: #060508;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 32px;
+    font-family: Georgia, "Times New Roman", serif;
+  }
+
+  /* Dim scanline texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.08) 3px,
+      rgba(0,0,0,0.08) 4px
+    );
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .neon-main {
+    font-size: 280px;
+    font-weight: 700;
+    font-style: italic;
+    color: #fff;
+    letter-spacing: -8px;
+    line-height: 1;
+    text-shadow:
+      0 0 6px #fff,
+      0 0 16px #fff,
+      0 0 36px #FF2DA0,
+      0 0 70px #FF2DA0,
+      0 0 110px #FF2DA0,
+      0 0 160px #FF2DA0,
+      0 0 220px rgba(255,45,160,0.4);
+  }
+
+  .neon-sub {
+    font-size: 72px;
+    font-weight: 400;
+    font-style: italic;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 4px;
+    text-shadow:
+      0 0 6px rgba(255,255,255,0.6),
+      0 0 20px #00D4FF,
+      0 0 50px #00D4FF,
+      0 0 90px rgba(0,212,255,0.5);
+  }
+</style>
+</head>
+<body>
+  <div class="neon-main">plans</div>
+  <div class="neon-sub">tonight</div>
+</body>
+</html>

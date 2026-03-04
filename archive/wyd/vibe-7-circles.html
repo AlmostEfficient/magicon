@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1024px;
+    height: 1024px;
+    overflow: hidden;
+    background: #FFFFFF;
+    position: relative;
+  }
+
+  /*
+    Three large overlapping circles — suggests people coming together.
+    iOS-palette colors, semi-transparent so overlaps are visible.
+    Positioned to stay within the safe zone (~780px circle).
+  */
+
+  .circle {
+    width: 460px;
+    height: 460px;
+    border-radius: 50%;
+    position: absolute;
+  }
+
+  /* Blue — upper left */
+  .c1 {
+    background: rgba(10, 132, 255, 0.62);
+    top: 156px;
+    left: 130px;
+  }
+
+  /* Mint green — upper right */
+  .c2 {
+    background: rgba(48, 209, 88, 0.62);
+    top: 156px;
+    left: 434px;
+  }
+
+  /* Coral pink — lower center */
+  .c3 {
+    background: rgba(255, 59, 92, 0.62);
+    top: 380px;
+    left: 282px;
+  }
+</style>
+</head>
+<body>
+  <div class="circle c1"></div>
+  <div class="circle c2"></div>
+  <div class="circle c3"></div>
+</body>
+</html>

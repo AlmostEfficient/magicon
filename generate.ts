@@ -2,9 +2,9 @@
  * Exports icon vibes as 1024x1024 PNGs.
  *
  * Usage:
- *   bun generate.ts        → exports all 5 to ./out/
- *   bun generate.ts 1      → exports vibe 1 (and copies to Xcode if XCODE_ASSETS_PATH is set)
- *   bun generate.ts 2      → exports vibe 2 (and copies to Xcode if XCODE_ASSETS_PATH is set)
+ *   bun generate.ts        → exports all vibe-*.html in project root to ./out/
+ *   bun generate.ts 1      → exports vibe-1-*.html (and copies to Xcode if XCODE_ASSETS_PATH is set)
+ *   bun generate.ts 2      → exports vibe-2-*.html (and copies to Xcode if XCODE_ASSETS_PATH is set)
  *   ...etc
  *
  * Env:
@@ -13,15 +13,28 @@
 
 import puppeteer from "puppeteer";
 import { resolve } from "path";
-import { mkdirSync, copyFileSync } from "fs";
+import { mkdirSync, copyFileSync, readdirSync } from "fs";
 
-const ICONS = [
-  { name: "vibe-1-bubble",   file: "vibe-1-bubble.html",   label: "The Message" },
-  { name: "vibe-2-type",     file: "vibe-2-type.html",     label: "Big Type" },
-  { name: "vibe-3-messages", file: "vibe-3-messages.html", label: "Group Chat" },
-  { name: "vibe-4-badge",    file: "vibe-4-badge.html",    label: "The Notif" },
-  { name: "vibe-5-brat",     file: "vibe-5-brat.html",     label: "brat" },
-];
+// Auto-discover vibe-N-name.html files in the project root
+const allFiles = readdirSync(import.meta.dir).filter((f) =>
+  /^vibe-\d+-[^/]+\.html$/.test(f)
+);
+
+const ICONS = allFiles
+  .map((file) => {
+    const match = file.match(/^vibe-(\d+)-(.+)\.html$/);
+    if (!match) return null;
+    const index = parseInt(match[1], 10);
+    const slug = match[2];
+    return { index, name: `vibe-${match[1]}-${slug}`, file, label: slug };
+  })
+  .filter(Boolean)
+  .sort((a, b) => a!.index - b!.index) as {
+  index: number;
+  name: string;
+  file: string;
+  label: string;
+}[];
 
 const XCODE_ASSETS = process.env.XCODE_ASSETS_PATH
   ? resolve(process.env.XCODE_ASSETS_PATH)
@@ -31,10 +44,19 @@ const outDir = resolve(import.meta.dir, "out");
 mkdirSync(outDir, { recursive: true });
 
 const arg = Bun.argv[2];
-const toExport = arg ? ICONS.filter((_, i) => String(i + 1) === arg) : ICONS;
+
+if (ICONS.length === 0) {
+  console.log("No vibes found. Create a vibe-1-name.html file in the project root to get started.");
+  process.exit(0);
+}
+
+const toExport = arg
+  ? ICONS.filter((icon) => String(icon.index) === arg)
+  : ICONS;
 
 if (toExport.length === 0) {
-  console.error(`Unknown vibe "${arg}". Use 1–5.`);
+  const available = ICONS.map((i) => i.index).join(", ");
+  console.error(`No vibe "${arg}" found. Available: ${available}`);
   process.exit(1);
 }
 
@@ -72,13 +94,6 @@ if (toExport.length === 1) {
     console.log(`\n→ Set XCODE_ASSETS_PATH to auto-copy to an Xcode project.`);
   }
 } else {
-  console.log(`
-All done. Pick one and run it solo to auto-install:
-
-  bun generate.ts 1   # The Message (blue bubble)
-  bun generate.ts 2   # Big Type
-  bun generate.ts 3   # Group Chat
-  bun generate.ts 4   # The Notif
-  bun generate.ts 5   # brat
-`);
+  const lines = ICONS.map((i) => `  bun generate.ts ${i.index}   # ${i.label}`).join("\n");
+  console.log(`\nAll done. Pick one and run it solo to auto-install:\n\n${lines}\n`);
 }

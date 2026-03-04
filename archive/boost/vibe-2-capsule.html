@@ -1,0 +1,78 @@
+<html style="width:1024px;height:1024px;margin:0;padding:0;overflow:hidden">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  width: 1024px;
+  height: 1024px;
+  background: #0C0C11;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+.bg-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 50% 38% at 62% 50%,
+    rgba(64, 148, 255, 0.18) 0%,
+    transparent 70%
+  );
+}
+.pill-outer {
+  position: relative;
+  z-index: 2;
+  transform: rotate(-18deg);
+  border-radius: 96px;
+  width: 530px;
+  height: 192px;
+  overflow: hidden;
+  box-shadow:
+    0 8px 48px rgba(0, 0, 0, 0.6),
+    0 0 52px rgba(64, 148, 255, 0.28),
+    0 0 110px rgba(64, 148, 255, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.35);
+}
+.pill-left {
+  position: absolute;
+  top: 0; left: 0;
+  width: 50%; height: 100%;
+  background: linear-gradient(155deg, #2E2E3E 0%, #18181F 100%);
+}
+.pill-right {
+  position: absolute;
+  top: 0; right: 0;
+  width: 50%; height: 100%;
+  background: linear-gradient(155deg, #68BBFF 0%, #3A92FF 45%, #1B5ED8 100%);
+}
+.pill-seam {
+  position: absolute;
+  top: 16px; bottom: 16px;
+  left: calc(50% - 0.5px);
+  width: 1px;
+  background: rgba(255, 255, 255, 0.10);
+  z-index: 3;
+}
+.pill-gloss {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom,
+    rgba(255, 255, 255, 0.10) 0%,
+    rgba(255, 255, 255, 0.03) 38%,
+    transparent 58%
+  );
+  z-index: 4;
+  pointer-events: none;
+}
+</style>
+<body>
+  <div class="bg-glow"></div>
+  <div class="pill-outer">
+    <div class="pill-left"></div>
+    <div class="pill-right"></div>
+    <div class="pill-seam"></div>
+    <div class="pill-gloss"></div>
+  </div>
+</body>
+</html>

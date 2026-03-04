@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1024px;
+    height: 1024px;
+    overflow: hidden;
+    background: #1A4D2E;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, "SF Pro Display", system-ui, sans-serif;
+  }
+
+  .stamp-wrap {
+    position: relative;
+    width: 740px;
+    height: 740px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Outer ring */
+  .ring-outer {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 14px solid rgba(255,255,255,0.82);
+  }
+
+  /* Inner ring — thinner, more subtle */
+  .ring-inner {
+    position: absolute;
+    inset: 36px;
+    border-radius: 50%;
+    border: 5px solid rgba(255,255,255,0.32);
+  }
+
+  /* Center bold text */
+  .stamp-text {
+    font-size: 220px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: -8px;
+    line-height: 1;
+    transform: rotate(-12deg);
+    text-transform: uppercase;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* SVG circular running text */
+  .circle-text {
+    position: absolute;
+    inset: 0;
+  }
+</style>
+</head>
+<body>
+  <div class="stamp-wrap">
+    <div class="ring-outer"></div>
+    <div class="ring-inner"></div>
+
+    <!-- Circular running text using SVG textPath -->
+    <svg class="circle-text" viewBox="0 0 740 740" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <path id="cp"
+          d="M 370,60 A 310,310 0 0,1 680,370 A 310,310 0 0,1 370,680 A 310,310 0 0,1 60,370 A 310,310 0 0,1 370,60"
+          fill="none"/>
+      </defs>
+      <text
+        font-family="-apple-system, system-ui, sans-serif"
+        font-size="30"
+        font-weight="500"
+        letter-spacing="9"
+        fill="rgba(255,255,255,0.55)"
+        text-transform="uppercase"
+      >
+        <textPath href="#cp">PLANS · TONIGHT · PLANS · TONIGHT · </textPath>
+      </text>
+    </svg>
+
+    <div class="stamp-text">PLANS</div>
+  </div>
+</body>
+</html>
