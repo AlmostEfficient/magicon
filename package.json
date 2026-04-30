@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "generate": "bun generate.ts",
+    "dev": "bun serve.ts",
     "preview": "open preview.html"
   },
   "dependencies": {

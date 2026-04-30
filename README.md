@@ -1,0 +1,1 @@
+Run bun serve.ts to start the harness. It'll show the empty state until you add vibe HTML files to the project root.

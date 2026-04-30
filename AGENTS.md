@@ -40,9 +40,50 @@ XCODE_ASSETS_PATH=../MyApp/Assets.xcassets/AppIcon.appiconset bun generate.ts 1
 
 See `examples/wyd/` for 5 icon concepts from the wyd app. Use them as reference for style, structure, and safe-zone handling.
 
+## Harness (live refinement)
+
+```
+bun serve.ts           # starts dev server on localhost:3333
+bun serve.ts 4000      # custom port
+```
+
+The harness at `harness.html` shows a sidebar of vibes, live iframe preview at multiple sizes, and parameter sliders. Hot-reloads on file changes via WebSocket.
+
+### Adding params to an icon
+
+When an icon is ready for refinement, add CSS variables to `:root` and a param declaration block:
+
+```html
+<style>
+  :root {
+    --stroke-width: 4px;
+    --glow-opacity: 0.6;
+  }
+  /* ...use var(--stroke-width) etc in styles... */
+</style>
+
+<script type="application/json" id="params">
+[
+  { "name": "Stroke Width", "var": "--stroke-width", "type": "range",
+    "min": 1, "max": 12, "step": 0.5, "default": 4, "unit": "px" },
+  { "name": "Glow Opacity", "var": "--glow-opacity", "type": "range",
+    "min": 0, "max": 1, "step": 0.05, "default": 0.6 },
+  { "name": "Line Join", "var": "--line-join", "type": "select",
+    "options": ["miter", "round", "bevel"], "default": "round" },
+  { "name": "Accent Color", "var": "--accent", "type": "color",
+    "default": "#4094FF" }
+]
+</script>
+```
+
+Param types: `range` (slider), `select` (dropdown), `color` (picker).
+
+The harness Save button writes current slider values back into the HTML file's `:root` CSS variables, so `bun generate.ts N` renders exactly what the harness shows.
+
 ## Iteration loop
 
 1. You write/edit `vibe-N-name.html`
-2. Human runs `bun generate.ts N`
-3. Human describes what to change
-4. Repeat
+2. Human runs `bun serve.ts` and tweaks params in browser
+3. Human runs `bun generate.ts N` to export PNG when happy
+4. Human describes what to change, or pastes the Copy text from harness
+5. Repeat

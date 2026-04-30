@@ -1,0 +1,103 @@
+<html style="width:1024px;height:1024px">
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --accent: #0A84FF;
+    --bubble-bg: #2C2C2E;
+    --scale: 1.3;
+    --bubble-size: 92px;
+    --hero-size: 108px;
+    --glow-opacity: 0.6;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 1024px;
+    height: 1024px;
+    overflow: hidden;
+  }
+
+  body {
+    background: #000000;
+    font-family: -apple-system, system-ui, "SF Pro Display", sans-serif;
+    position: relative;
+  }
+
+  .b {
+    position: absolute;
+    border-radius: 38px;
+    white-space: nowrap;
+    font-weight: 500;
+    letter-spacing: -2px;
+    line-height: 1;
+    color: rgba(255,255,255,0.84);
+    background: var(--bubble-bg);
+    font-size: var(--bubble-size);
+    padding: 36px 52px;
+    z-index: 2;
+  }
+
+  .hero {
+    background: var(--accent);
+    padding: 44px 64px;
+    font-size: var(--hero-size);
+    font-weight: 650;
+    letter-spacing: -3px;
+    border-radius: 44px;
+    color: #fff;
+    box-shadow: 0 0 80px oklch(from var(--accent) l c h / var(--glow-opacity)),
+                0 0 200px oklch(from var(--accent) l c h / calc(var(--glow-opacity) * 0.42));
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+  }
+</style>
+</head>
+<body>
+
+<div style="position:absolute; inset:0; transform:scale(var(--scale)); transform-origin:center center;">
+
+<!-- TOP STRIP -->
+<div class="b" style="top:-15px; left:-90px; transform:rotate(-22deg)">club?</div>
+<div class="b" style="top:36px;  left:290px; transform:rotate(-5deg)">raves?</div>
+<div class="b" style="top:-20px; left:700px; transform:rotate(20deg)">free?</div>
+
+<!-- UPPER BAND -->
+<div class="b" style="top:215px; left:-82px; transform:rotate(-15deg)">party?</div>
+<div class="b" style="top:234px; left:272px; transform:rotate(1deg)">afters?</div>
+<div class="b" style="top:190px; left:762px; transform:rotate(16deg)">dance?</div>
+
+<!-- MIDDLE BAND (flanking hero) -->
+<div class="b" style="top:428px; left:-130px; transform:rotate(8deg)">after?</div>
+<div class="b" style="top:368px; left:722px; transform:rotate(-9deg)">out?</div>
+<div class="b" style="top:538px; left:848px; transform:rotate(-13deg)">events?</div>
+
+<!-- LOWER BAND -->
+<div class="b" style="top:638px; left:-98px; transform:rotate(13deg)">plans?</div>
+<div class="b" style="top:628px; left:272px; transform:rotate(-2deg)">concert?</div>
+
+<!-- BOTTOM STRIP -->
+<div class="b" style="top:832px; left:52px;  transform:rotate(-9deg)">shows?</div>
+<div class="b" style="top:844px; left:526px; transform:rotate(15deg)">brunch?</div>
+
+<!-- HERO -->
+<div class="hero">plans?</div>
+
+</div>
+
+<script type="application/json" id="params">
+[
+  { "name": "Accent Color",  "var": "--accent",       "type": "color",                                                    "default": "#0A84FF" },
+  { "name": "Bubble Color",  "var": "--bubble-bg",    "type": "color",                                                    "default": "#2C2C2E" },
+  { "name": "Scale",         "var": "--scale",        "type": "range", "min": 0.8, "max": 1.8, "step": 0.05,             "default": 1.3 },
+  { "name": "Bubble Size",   "var": "--bubble-size",  "type": "range", "min": 60,  "max": 120, "step": 2,    "unit": "px", "default": 92 },
+  { "name": "Hero Size",     "var": "--hero-size",    "type": "range", "min": 80,  "max": 140, "step": 2,    "unit": "px", "default": 108 },
+  { "name": "Glow Opacity",  "var": "--glow-opacity", "type": "range", "min": 0,   "max": 1,   "step": 0.05,             "default": 0.6 }
+]
+</script>
+</body>
+</html>

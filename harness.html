@@ -1,0 +1,873 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>magicon harness</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #111;
+    color: #fff;
+    font-family: -apple-system, system-ui, sans-serif;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ── Sidebar ── */
+  #sidebar {
+    width: 260px;
+    background: #1a1a1a;
+    border-right: 1px solid rgba(255,255,255,0.07);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  #app-name {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    padding: 18px 16px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  #vibe-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 6px 0;
+  }
+
+  .vibe-tab {
+    display: flex;
+    align-items: center;
+    padding: 9px 14px;
+    cursor: pointer;
+    border-radius: 7px;
+    margin: 1px 6px;
+    gap: 10px;
+    transition: background 0.1s;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.7);
+  }
+  .vibe-tab:hover { background: rgba(255,255,255,0.05); }
+  .vibe-tab.active {
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+  }
+  .vibe-tab .index {
+    font-size: 10px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.25);
+    width: 18px;
+    text-align: right;
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+  }
+  .vibe-tab .slug { flex: 1; }
+
+  #sidebar-hint {
+    font-size: 10px;
+    color: rgba(255,255,255,0.15);
+    text-align: center;
+    padding: 12px 16px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    line-height: 1.6;
+  }
+
+  /* ── Main area ── */
+  #main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: #0a0a0a;
+  }
+
+  /* ── Preview ── */
+  #preview-area {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    position: relative;
+  }
+
+  #preview-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .icon-frame {
+    border-radius: 22.5%;
+    overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 24px 80px rgba(0,0,0,0.6);
+  }
+
+  .icon-frame iframe {
+    display: block;
+    border: none;
+    width: 1024px;
+    height: 1024px;
+    transform-origin: top left;
+    pointer-events: none;
+  }
+
+  #main-frame {
+    width: 512px;
+    height: 512px;
+  }
+  #main-frame iframe {
+    transform: scale(0.5);
+  }
+
+  #size-strip {
+    display: flex;
+    gap: 16px;
+    align-items: flex-end;
+  }
+
+  .mini-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .mini-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.25);
+    font-variant-numeric: tabular-nums;
+  }
+
+  #empty-state {
+    color: rgba(255,255,255,0.2);
+    font-size: 14px;
+    text-align: center;
+    line-height: 1.8;
+  }
+
+  /* ── View toggle ── */
+  #view-toggle {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    display: none;
+    gap: 2px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 8px;
+    padding: 3px;
+    z-index: 10;
+  }
+
+  .view-btn {
+    padding: 4px 14px;
+    border: none;
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: rgba(255,255,255,0.4);
+    background: transparent;
+    transition: all 0.12s;
+  }
+  .view-btn:hover { color: rgba(255,255,255,0.7); }
+  .view-btn.active {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+  }
+
+  /* ── Phone view ── */
+  #phone-view {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    padding: 24px 0;
+  }
+
+  #phone-shell {
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  #phone-screenshot {
+    display: block;
+    width: 300px;
+    height: auto;
+    border-radius: 14px;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 20px 60px rgba(0,0,0,0.7);
+  }
+
+  #phone-icon-slot {
+    position: absolute;
+    border-radius: 22.5%;
+    overflow: hidden;
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.25);
+  }
+
+  #phone-icon-slot iframe {
+    display: block;
+    border: none;
+    width: 1024px;
+    height: 1024px;
+    transform-origin: top left;
+    pointer-events: none;
+  }
+
+  /* ── Params panel ── */
+  #params-panel {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    background: #141414;
+    max-height: 280px;
+    overflow-y: auto;
+  }
+
+  #params-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px 8px;
+  }
+
+  #params-title {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+  }
+
+  #params-hint {
+    font-size: 12px;
+    color: rgba(255,255,255,0.18);
+    padding: 12px 20px 16px;
+  }
+
+  #params-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 4px 32px;
+    padding: 0 20px 16px;
+  }
+
+  .param-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 32px;
+  }
+  .param-row label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.45);
+    width: 110px;
+    flex-shrink: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .param-row input[type=range] {
+    flex: 1;
+    accent-color: #0A84FF;
+    height: 3px;
+    min-width: 80px;
+  }
+  .param-row .val {
+    font-size: 11px;
+    color: rgba(255,255,255,0.55);
+    width: 52px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+  }
+  .param-row select {
+    flex: 1;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    padding: 4px 8px;
+    color: #fff;
+    font-size: 12px;
+    outline: none;
+    cursor: pointer;
+  }
+  .param-row select:focus { border-color: #0A84FF; }
+  .param-row input[type=color] {
+    width: 32px;
+    height: 24px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  .param-row .color-hex {
+    font-size: 11px;
+    color: rgba(255,255,255,0.45);
+    font-family: 'SF Mono', 'Menlo', monospace;
+  }
+
+  /* ── Buttons ── */
+  #btn-bar {
+    display: flex;
+    gap: 8px;
+    padding: 0 20px 14px;
+  }
+
+  #btn-bar button {
+    padding: 7px 16px;
+    border: none;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    color: #fff;
+  }
+  #btn-bar button:hover { opacity: 0.82; }
+  #btn-reset { background: rgba(255,255,255,0.08); font-weight: 500; }
+  #btn-copy { background: rgba(255,255,255,0.08); font-weight: 500; }
+  #btn-save { background: #0A84FF; }
+</style>
+</head>
+<body>
+
+<div id="sidebar">
+  <div id="app-name">magicon</div>
+  <div id="vibe-list"></div>
+  <div id="sidebar-hint">bun serve.ts</div>
+</div>
+
+<div id="main">
+  <div id="preview-area">
+
+    <div id="view-toggle">
+      <button class="view-btn active" id="btn-icon-view">Icon</button>
+      <button class="view-btn" id="btn-phone-view">Phone</button>
+    </div>
+
+    <div id="preview-wrap" style="display:none">
+      <div id="main-frame" class="icon-frame">
+        <iframe id="iframe-main" sandbox="allow-same-origin"></iframe>
+      </div>
+      <div id="size-strip"></div>
+    </div>
+
+    <div id="phone-view">
+      <div id="phone-shell">
+        <img id="phone-screenshot" src="/iphone-17.png" alt="">
+        <div id="phone-icon-slot">
+          <iframe id="iframe-phone" sandbox="allow-same-origin"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <div id="empty-state">
+      No vibe files found.<br>
+      Create a <code>vibe-1-name.html</code> to get started.
+    </div>
+  </div>
+
+  <div id="params-panel" style="display:none">
+    <div id="params-header">
+      <div id="params-title">Parameters</div>
+    </div>
+    <div id="params-hint"></div>
+    <div id="params-grid"></div>
+    <div id="btn-bar">
+      <button id="btn-reset">Reset</button>
+      <button id="btn-copy">Copy</button>
+      <button id="btn-save">Save</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── State ────────────────────────────────────────────────────
+
+let vibes = [];
+let activeFile = null;
+let params = [];        // parsed from the iframe's <script id="params">
+let currentValues = {}; // { varName: currentValue }
+let defaults = {};      // { varName: defaultValue }
+let appInfo = { name: "magicon", accent: "#0A84FF" };
+
+const MINI_SIZES = [180, 120, 60];
+
+// ── Phone view config ────────────────────────────────────────
+// Screenshot grid calibration — adjust if overlay doesn't line up
+const PHONE_IMG_W = 1206;
+const PHONE_IMG_H = 2622;
+// Icon center x positions in screenshot px (col 1–4)
+const PHONE_COL_CENTERS = [170, 459, 748, 1037];
+// Icon center y positions in screenshot px (row 1–5)
+const PHONE_ROW_CENTERS = [300, 520, 740, 960, 1180];
+const PHONE_ICON_PX = 180; // 60pt × 3x
+// Target cell (0-indexed): row 5, col 3
+const PHONE_TARGET_ROW = 4;
+const PHONE_TARGET_COL = 2;
+
+let phoneViewActive = false;
+
+// ── Elements ─────────────────────────────────────────────────
+
+const $sidebar     = document.getElementById("vibe-list");
+const $appName     = document.getElementById("app-name");
+const $previewWrap = document.getElementById("preview-wrap");
+const $emptyState  = document.getElementById("empty-state");
+const $mainFrame   = document.getElementById("main-frame");
+const $iframeMain  = document.getElementById("iframe-main");
+const $sizeStrip   = document.getElementById("size-strip");
+const $paramsPanel = document.getElementById("params-panel");
+const $paramsGrid  = document.getElementById("params-grid");
+const $paramsHint  = document.getElementById("params-hint");
+const $btnBar      = document.getElementById("btn-bar");
+const $btnReset    = document.getElementById("btn-reset");
+const $btnCopy     = document.getElementById("btn-copy");
+const $btnSave     = document.getElementById("btn-save");
+const $viewToggle  = document.getElementById("view-toggle");
+const $btnIconView = document.getElementById("btn-icon-view");
+const $btnPhoneView = document.getElementById("btn-phone-view");
+const $phoneView   = document.getElementById("phone-view");
+const $phoneShell  = document.getElementById("phone-shell");
+const $phoneScreenshot = document.getElementById("phone-screenshot");
+const $phoneSlot   = document.getElementById("phone-icon-slot");
+const $iframePhone = document.getElementById("iframe-phone");
+
+// ── Phone view ───────────────────────────────────────────────
+
+function updatePhoneSlot() {
+  const displayW = $phoneScreenshot.offsetWidth || 300;
+  const s = displayW / PHONE_IMG_W;
+  const iconSize = PHONE_ICON_PX * s;
+  const cx = PHONE_COL_CENTERS[PHONE_TARGET_COL] * s;
+  const cy = PHONE_ROW_CENTERS[PHONE_TARGET_ROW] * s;
+
+  $phoneSlot.style.width  = iconSize + "px";
+  $phoneSlot.style.height = iconSize + "px";
+  $phoneSlot.style.left   = (cx - iconSize / 2) + "px";
+  $phoneSlot.style.top    = (cy - iconSize / 2) + "px";
+  $iframePhone.style.transform = `scale(${iconSize / 1024})`;
+}
+
+$btnIconView.addEventListener("click", () => {
+  if (!phoneViewActive) return;
+  phoneViewActive = false;
+  $btnIconView.classList.add("active");
+  $btnPhoneView.classList.remove("active");
+  $phoneView.style.display = "none";
+  if (activeFile) $previewWrap.style.display = "";
+});
+
+$btnPhoneView.addEventListener("click", () => {
+  if (phoneViewActive) return;
+  phoneViewActive = true;
+  $btnPhoneView.classList.add("active");
+  $btnIconView.classList.remove("active");
+  $previewWrap.style.display = "none";
+  $phoneView.style.display = "flex";
+  if (activeFile) {
+    $iframePhone.src = "/" + activeFile;
+    $iframePhone.onload = () => {
+      Object.entries(currentValues).forEach(([k, v]) => {
+        try { $iframePhone.contentDocument.documentElement.style.setProperty(k, v); } catch {}
+      });
+    };
+  }
+  if ($phoneScreenshot.complete) {
+    updatePhoneSlot();
+  } else {
+    $phoneScreenshot.onload = updatePhoneSlot;
+  }
+});
+
+// ── Fetch helpers ────────────────────────────────────────────
+
+async function fetchVibes() {
+  const res = await fetch("/api/vibes");
+  vibes = await res.json();
+}
+
+async function fetchApp() {
+  const res = await fetch("/api/app");
+  appInfo = await res.json();
+  $appName.textContent = appInfo.name || "magicon";
+}
+
+// ── Sidebar rendering ────────────────────────────────────────
+
+function renderSidebar() {
+  $sidebar.innerHTML = "";
+  vibes.forEach((v) => {
+    const tab = document.createElement("div");
+    tab.className = "vibe-tab" + (v.file === activeFile ? " active" : "");
+    tab.innerHTML = `<span class="index">${v.index}</span><span class="slug">${v.slug}</span>`;
+    tab.addEventListener("click", () => selectVibe(v.file));
+    $sidebar.appendChild(tab);
+  });
+}
+
+// ── Select a vibe ────────────────────────────────────────────
+
+function selectVibe(file) {
+  activeFile = file;
+  renderSidebar();
+
+  $emptyState.style.display = "none";
+  $viewToggle.style.display = "flex";
+
+  if (phoneViewActive) {
+    $phoneView.style.display = "flex";
+    $previewWrap.style.display = "none";
+    $iframePhone.src = "/" + file;
+    $iframePhone.onload = () => {
+      Object.entries(currentValues).forEach(([k, v]) => {
+        try { $iframePhone.contentDocument.documentElement.style.setProperty(k, v); } catch {}
+      });
+    };
+  } else {
+    $previewWrap.style.display = "";
+    $phoneView.style.display = "none";
+  }
+
+  // Load main iframe
+  $iframeMain.src = "/" + file;
+
+  // Build mini size strip
+  $sizeStrip.innerHTML = "";
+  MINI_SIZES.forEach((px) => {
+    const col = document.createElement("div");
+    col.className = "mini-col";
+
+    const frame = document.createElement("div");
+    frame.className = "icon-frame";
+    frame.style.width = px + "px";
+    frame.style.height = px + "px";
+
+    const iframe = document.createElement("iframe");
+    iframe.src = "/" + file;
+    iframe.sandbox = "allow-same-origin";
+    iframe.style.width = "1024px";
+    iframe.style.height = "1024px";
+    iframe.style.transformOrigin = "top left";
+    iframe.style.transform = `scale(${px / 1024})`;
+    iframe.style.pointerEvents = "none";
+    iframe.style.border = "none";
+    iframe.style.display = "block";
+
+    const lbl = document.createElement("div");
+    lbl.className = "mini-label";
+    lbl.textContent = px;
+
+    frame.appendChild(iframe);
+    col.appendChild(frame);
+    col.appendChild(lbl);
+    $sizeStrip.appendChild(col);
+  });
+
+  // Wait for main iframe to load then extract params
+  $iframeMain.onload = () => extractParams();
+}
+
+// ── Extract params from iframe ───────────────────────────────
+
+function extractParams() {
+  params = [];
+  currentValues = {};
+  defaults = {};
+
+  try {
+    const doc = $iframeMain.contentDocument;
+    if (!doc) return showNoParams();
+
+    const scriptEl = doc.getElementById("params");
+    if (!scriptEl) return showNoParams();
+
+    params = JSON.parse(scriptEl.textContent);
+    if (!Array.isArray(params) || params.length === 0) return showNoParams();
+
+    // Read defaults and current values from computed style
+    const rootStyle = doc.documentElement.style;
+    const computed = getComputedStyle(doc.documentElement);
+
+    params.forEach((p) => {
+      defaults[p.var] = String(p.default) + (p.unit || "");
+      // Try to read current value from inline style or computed
+      const inline = rootStyle.getPropertyValue(p.var).trim();
+      const comp = computed.getPropertyValue(p.var).trim();
+      const raw = inline || comp || defaults[p.var];
+      currentValues[p.var] = raw;
+    });
+
+    renderParams();
+  } catch {
+    showNoParams();
+  }
+}
+
+function showNoParams() {
+  $paramsPanel.style.display = "block";
+  $paramsGrid.innerHTML = "";
+  $paramsHint.textContent = "No params defined. Add a <script id=\"params\"> block to enable sliders.";
+  $paramsHint.style.display = "";
+  $btnBar.style.display = "none";
+}
+
+// ── Render param controls ────────────────────────────────────
+
+function renderParams() {
+  $paramsPanel.style.display = "block";
+  $paramsHint.style.display = "none";
+  $btnBar.style.display = "";
+  $paramsGrid.innerHTML = "";
+
+  params.forEach((p) => {
+    const row = document.createElement("div");
+    row.className = "param-row";
+
+    const label = document.createElement("label");
+    label.textContent = p.name;
+    label.title = p.var;
+    row.appendChild(label);
+
+    if (p.type === "range") {
+      const input = document.createElement("input");
+      input.type = "range";
+      input.min = p.min;
+      input.max = p.max;
+      input.step = p.step || 1;
+      input.value = parseFloat(currentValues[p.var]) || p.default;
+
+      const val = document.createElement("span");
+      val.className = "val";
+      val.textContent = input.value + (p.unit || "");
+
+      input.addEventListener("input", () => {
+        const v = input.value + (p.unit || "");
+        val.textContent = v;
+        currentValues[p.var] = v;
+        applyVar(p.var, v);
+      });
+
+      row.appendChild(input);
+      row.appendChild(val);
+    } else if (p.type === "select") {
+      const select = document.createElement("select");
+      p.options.forEach((opt) => {
+        const o = document.createElement("option");
+        o.value = opt;
+        o.textContent = opt;
+        if (currentValues[p.var] === opt || (!currentValues[p.var] && opt === p.default)) {
+          o.selected = true;
+        }
+        select.appendChild(o);
+      });
+
+      select.addEventListener("change", () => {
+        currentValues[p.var] = select.value;
+        applyVar(p.var, select.value);
+      });
+
+      row.appendChild(select);
+    } else if (p.type === "color") {
+      const input = document.createElement("input");
+      input.type = "color";
+      input.value = currentValues[p.var] || p.default;
+
+      const hex = document.createElement("span");
+      hex.className = "color-hex";
+      hex.textContent = input.value;
+
+      input.addEventListener("input", () => {
+        hex.textContent = input.value;
+        currentValues[p.var] = input.value;
+        applyVar(p.var, input.value);
+      });
+
+      row.appendChild(input);
+      row.appendChild(hex);
+    }
+
+    $paramsGrid.appendChild(row);
+  });
+}
+
+// ── Apply a CSS variable to all iframes ──────────────────────
+
+function applyVar(varName, value) {
+  // Main iframe
+  try {
+    $iframeMain.contentDocument.documentElement.style.setProperty(varName, value);
+  } catch {}
+
+  // Mini iframes
+  $sizeStrip.querySelectorAll("iframe").forEach((iframe) => {
+    try {
+      iframe.contentDocument.documentElement.style.setProperty(varName, value);
+    } catch {}
+  });
+
+  // Phone view iframe
+  try {
+    $iframePhone.contentDocument.documentElement.style.setProperty(varName, value);
+  } catch {}
+}
+
+// ── Buttons ──────────────────────────────────────────────────
+
+$btnReset.addEventListener("click", () => {
+  params.forEach((p) => {
+    const def = String(p.default) + (p.unit || "");
+    currentValues[p.var] = def;
+    applyVar(p.var, def);
+  });
+  renderParams();
+});
+
+$btnCopy.addEventListener("click", () => {
+  const lines = [];
+  let hasDiff = false;
+  params.forEach((p) => {
+    const def = String(p.default) + (p.unit || "");
+    const cur = currentValues[p.var] || def;
+    if (cur !== def) {
+      lines.push(`- ${p.var}: ${def} → ${cur}`);
+      hasDiff = true;
+    }
+  });
+
+  let text = `## Icon: ${activeFile}\n\n`;
+  if (hasDiff) {
+    text += `Changes from defaults:\n${lines.join("\n")}`;
+  } else {
+    text += `All values at defaults.`;
+  }
+
+  navigator.clipboard.writeText(text).then(() => {
+    $btnCopy.textContent = "Copied!";
+    setTimeout(() => ($btnCopy.textContent = "Copy"), 1500);
+  });
+});
+
+$btnSave.addEventListener("click", () => {
+  if (!activeFile) return;
+  const vars = {};
+  params.forEach((p) => {
+    vars[p.var] = currentValues[p.var] || String(p.default) + (p.unit || "");
+  });
+
+  if (ws && ws.readyState === WebSocket.OPEN) {
+    ws.send(JSON.stringify({ type: "save-params", file: activeFile, vars }));
+    $btnSave.textContent = "Saving...";
+  } else {
+    fetch(`/api/save-params/${encodeURIComponent(activeFile)}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ vars }),
+    }).then((r) => r.json()).then((result) => {
+      $btnSave.textContent = result.ok ? "Saved!" : "Error";
+      setTimeout(() => ($btnSave.textContent = "Save"), 1500);
+    });
+  }
+});
+
+// ── WebSocket ────────────────────────────────────────────────
+
+let ws;
+
+function connectWS() {
+  const proto = location.protocol === "https:" ? "wss:" : "ws:";
+  ws = new WebSocket(`${proto}//${location.host}/ws`);
+
+  ws.addEventListener("message", (e) => {
+    const msg = JSON.parse(e.data);
+
+    if (msg.type === "reload") {
+      location.reload();
+      return;
+    }
+
+    if (msg.type === "vibes-changed") {
+      fetchVibes().then(() => {
+        renderSidebar();
+        if (activeFile && !vibes.find((v) => v.file === activeFile)) {
+          activeFile = null;
+          $previewWrap.style.display = "none";
+          $phoneView.style.display = "none";
+          $viewToggle.style.display = "none";
+          $paramsPanel.style.display = "none";
+          $emptyState.style.display = vibes.length ? "none" : "";
+          if (vibes.length) selectVibe(vibes[0].file);
+        }
+      });
+    }
+
+    if (msg.type === "file-changed" && msg.file === activeFile) {
+      // Reload main iframe
+      $iframeMain.src = "/" + activeFile + "?t=" + Date.now();
+      $iframeMain.onload = () => {
+        extractParams();
+        Object.entries(currentValues).forEach(([k, v]) => applyVar(k, v));
+      };
+      // Reload mini iframes
+      $sizeStrip.querySelectorAll("iframe").forEach((iframe) => {
+        iframe.src = "/" + activeFile + "?t=" + Date.now();
+        iframe.onload = () => {
+          Object.entries(currentValues).forEach(([k, v]) => {
+            try { iframe.contentDocument.documentElement.style.setProperty(k, v); } catch {}
+          });
+        };
+      });
+      // Reload phone iframe
+      if (phoneViewActive) {
+        $iframePhone.src = "/" + activeFile + "?t=" + Date.now();
+        $iframePhone.onload = () => {
+          Object.entries(currentValues).forEach(([k, v]) => {
+            try { $iframePhone.contentDocument.documentElement.style.setProperty(k, v); } catch {}
+          });
+        };
+      }
+    }
+
+    if (msg.type === "save-ok") {
+      $btnSave.textContent = msg.ok !== false ? "Saved!" : "Error";
+      setTimeout(() => ($btnSave.textContent = "Save"), 1500);
+    }
+  });
+
+  ws.addEventListener("close", () => {
+    setTimeout(connectWS, 2000);
+  });
+}
+
+// ── Init ─────────────────────────────────────────────────────
+
+async function init() {
+  await Promise.all([fetchVibes(), fetchApp()]);
+  renderSidebar();
+
+  if (vibes.length > 0) {
+    selectVibe(vibes[0].file);
+  }
+
+  connectWS();
+}
+
+init();
+</script>
+</body>
+</html>
